@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api.php";
+	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_post.php";
 	
 	
 	
@@ -17,21 +17,13 @@
 		echo 'TOKEN'.$response->access_token;
 		$yakwala->SetAccessToken($response->access_token);
 		showUserBasics($response->user);
-		
-		$response = $yakwala->GetPrivate("api/users/".$response->user->id);
+		$params = array('name'=>'test','lat'=>1,'lng'=>2);
+		$response = $yakwala->GetPrivate("api/favplace/".$response->user->id,$params,'HTTP_GET');
 		$userdetails = json_decode($response);
 		echo "<br><br> <b>USER DETAILS:</b> users/userid<br>";
 		print_r($userdetails);
 		
-		$response = $yakwala->GetPrivate("api/users/feed/".$userdetails->_id."/20");
-		$userfeed = json_decode($response);
-		echo "<br><br> <b>LAST 20 INFOS POSTED:</b> users/feed/userid/20<br>";
-		print_r($userfeed);
 		
-		$response = $yakwala->GetPrivate("api/users/search/renaud");
-		$userlist = json_decode($response);
-		echo "<br><br> <b>USERS SEARCH RESULTS:</b> users/search/renaud<br>";
-		print_r($userlist);
 		
 	}else{
 		$authlink =  $yakwala->AuthenticationLink($redirect_uri);
@@ -42,7 +34,7 @@
 		echo "
 			<br>Name: <b>".$userBasic->full_name."</b><br>
 			Login: <b>".$userBasic->username."</b><br>
-			Profile Picture: <img src='".$userBasic->profile_picture."' />
+			Profile Picture: <img src='".$userBasic->profile_picture."' width='20' />
 		";
 	}
 ?>

@@ -24,11 +24,14 @@ class YakwalaApiException extends Exception {}
 class YakwalaApi {
 	
 	/** @var String $BaseUrl The base url for the yakwala API */
-	private $BaseUrl = "http://localhost:3000/api/";
+	private $BaseUrl = "http://localhost:3000/";
+	//private $BaseUrl = "http://ec2-54-247-18-97.eu-west-1.compute.amazonaws.com:62501/";
 	/** @var String $AuthUrl The url for obtaining the auth access code */
 	private $AuthUrl = "http://localhost:3000/api/oauth/authorize";
+	//private $AuthUrl = "http://ec2-54-247-18-97.eu-west-1.compute.amazonaws.com:62501/api/oauth/authorize";
 	/** @var String $TokenUrl The url for obtaining an auth token */
 	private $TokenUrl = "http://localhost:3000/api/oauth/access_token";
+	//private $TokenUrl = "http://ec2-54-247-18-97.eu-west-1.compute.amazonaws.com:62501/api/oauth/access_token";
 	
 	// Edited Petr Babicka (babcca@gmail.com) https://developer.yakwala.com/overview/versioning
 	/** @var String $Version YYYYMMDD */
@@ -179,6 +182,7 @@ class YakwalaApi {
 		if($type == HTTP_POST) {
 			curl_setopt($ch, CURLOPT_POST, 1); 
 			if($params) curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+			if($params) echo 'PARAMS';
 		}
 
 		
@@ -186,6 +190,8 @@ class YakwalaApi {
 		$info=curl_getinfo($ch);
 		curl_close($ch);
 		
+		var_dump($info);
+		var_dump($result);
 		return $result;
 	}
 
@@ -259,11 +265,11 @@ class YakwalaApi {
 	 * Returns a link to the Yakwala web authentication page.
 	 * @param String $redirect The configured redirect_uri for the provided client credentials
 	 */
-	public function AuthenticationLink($redirect=''){
+	public function AuthenticationLink($redirect='',$response_type="code"){
 		if ( 0 === strlen( $redirect ) ) {
 			$redirect = $this->RedirectUri;
 		}
-		$params = array("client_id"=>$this->ClientID,"response_type"=>"code","redirect_uri"=>$redirect);
+		$params = array("client_id"=>$this->ClientID,"response_type"=>$response_type,"redirect_uri"=>$redirect);
 		return $this->MakeUrl($this->AuthUrl,$params);
 	}
 	
@@ -286,6 +292,7 @@ class YakwalaApi {
 						"redirect_uri"=>$redirect,
 						"code"=>$code);
 		$result = $this->GET($this->TokenUrl,$params);
+		
 		$json = json_decode($result);
 		// Petr Babicka Check if we get token
 		if (property_exists($json, 'access_token')) {

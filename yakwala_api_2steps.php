@@ -4,21 +4,21 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api.php";
-	
-	
+	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_2steps.php";
 	
 	// Load the Yakwala API library
 	$yakwala = new YakwalaAPI($client_key,$client_secret);
 	
 	
-	if(array_key_exists("code",$_GET)){
-		$response = $yakwala->GetToken($_GET['code'],$redirect_uri);
-		echo 'TOKEN'.$response->access_token;
-		$yakwala->SetAccessToken($response->access_token);
-		showUserBasics($response->user);
+	if(array_key_exists("access_token",$_GET) && array_key_exists("id",$_GET)){
 		
-		$response = $yakwala->GetPrivate("api/users/".$response->user->id);
+		$yakwala->SetAccessToken($_GET['access_token']);
+		
+		
+		$response = $yakwala->GetPrivate("api/users/".$_GET['id']);
+		
+		
+		$response = $yakwala->GetPrivate("api/users/".$_GET['id']);
 		$userdetails = json_decode($response);
 		echo "<br><br> <b>USER DETAILS:</b> users/userid<br>";
 		print_r($userdetails);
@@ -34,15 +34,16 @@
 		print_r($userlist);
 		
 	}else{
-		$authlink =  $yakwala->AuthenticationLink($redirect_uri);
+		$authlink =  $yakwala->AuthenticationLink($redirect_uri,'token');
 		//echo $authlink;
 		header('Location:'.$authlink);
 	}
+	
 	function showUserBasics($userBasic){
 		echo "
 			<br>Name: <b>".$userBasic->full_name."</b><br>
 			Login: <b>".$userBasic->username."</b><br>
-			Profile Picture: <img src='".$userBasic->profile_picture."' />
+			Profile Picture: <img src='".$userBasic->profile_picture."'/>
 		";
 	}
 ?>

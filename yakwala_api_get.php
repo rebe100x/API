@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_post.php";
+	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_get.php";
 	
 	
 	
@@ -13,8 +13,6 @@
 	
 	
 	if(array_key_exists("code",$_GET)){
-	
-		
 		$response = $yakwala->GetToken($_GET['code'],$redirect_uri);
 		echo 'TOKEN'.$response->access_token;
 		$yakwala->SetAccessToken($response->access_token);
@@ -22,17 +20,21 @@
 		
 		$userid = $response->user->id;
 		
-		$params = array('place'=>json_encode(array('name'=>'api test','location'=>array('lat'=>10,'lng'=>20))));
-		$response = $yakwala->GetPrivate("api/favplace/".$userid,$params,'POST');
-		$insert = json_decode($response);
-		var_dump($insert);
+		/*USER FAV PLACE*/
+		$response = $yakwala->GetPrivate("api/favplace/".$userid);
+		$favplace = json_decode($response);
+		echo "<br><br> <b>USER FAVPLACE:</b><br>";
+		foreach($favplace->data->favplace as $favplaceItem){
+			echo $favplaceItem->name.' (id= '.$favplaceItem->_id.' )<br>';
+		}
 		
-		$params = array('usersubs'=>json_encode(array('_id'=>'50ae0eb26aff2f4819000009')));
-		$response = $yakwala->GetPrivate("api/subscribe/user/".$userid,$params,'POST');
-		$insert = json_decode($response);
-		var_dump($insert);
-		
-		
+		/*USER SUBSCRIBTION TO USER FEED*/
+		$response = $yakwala->GetPrivate("api/subscribe/user/".$userid);
+		$usersubs = json_decode($response);
+		echo "<br><br> <b>USER SUBSCRIBTIONS:</b><br>";
+		foreach($usersubs->data->usersubs as $usersubsItem){
+			echo $usersubsItem->userdetails.' (id= '.$usersubsItem->_id.' )<br>';
+		}
 		
 		
 		
@@ -41,15 +43,11 @@
 		//echo $authlink;
 		header('Location:'.$authlink);
 	}
-	
-	
-	
-	
 	function showUserBasics($userBasic){
 		echo "
 			<br>Name: <b>".$userBasic->full_name."</b><br>
 			Login: <b>".$userBasic->username."</b><br>
-			Profile Picture: <img src='".$userBasic->profile_picture."' width='20' />
+			Profile Picture: <img src='".$userBasic->profile_picture."' />
 		";
 	}
 ?>

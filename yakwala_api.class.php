@@ -13,6 +13,8 @@
 
 DEFINE("HTTP_GET","GET");
 DEFINE("HTTP_POST","POST");
+DEFINE("HTTP_PUT","PUT");
+DEFINE("HTTP_DELETE","DELETE");
 
 /**
  * YakwalaApi
@@ -100,8 +102,24 @@ class YakwalaApi {
 		$params['access_token'] = $this->AuthToken;
 		$params['v'] = $this->Version;
 		$params['locale'] = $this->ClientLanguage;
-		if(!$POST) return $this->GET($url,$params);
-		else return $this->POST($url,$params);
+		switch($POST){
+				case 'POST':
+					return $this->POST($url,$params);
+				break;
+				case 'GET':
+					return $this->GET($url,$params);
+				break;
+				case 'DELETE':
+					return $this->DELETE($url,$params);
+				break;
+				case 'PUT':
+					return $this->PUT($url,$params);
+				break;
+				default:
+					return $this->GET($url,$params);
+			}
+			
+			
 	}
 
 	/**
@@ -112,7 +130,7 @@ class YakwalaApi {
 	 * @param bool $POST whether or not to use a POST request, e.g.  for large request bodies.
 	 * It does not allow you to call endpoints that mutate data.
 	 */
-	public function GetMulti($requests=false,$POST=false){
+	public function GetMulti($requests=false,$POST='GET'){
 		$url = $this->BaseUrl . "multi";		
 		$params = array();
 		$params['access_token'] = $this->AuthToken;
@@ -128,8 +146,22 @@ class YakwalaApi {
 			}
 			$params['requests'] = implode(',', $request_queries);
 		}
-				if(!$POST) return $this->GET($url,$params);
-		else return $this->POST($url,$params);
+			switch($POST){
+				case 'POST':
+					return $this->POST($url,$params);
+				break;
+				case 'GET':
+					return $this->GET($url,$params);
+				break;
+				case 'DELETE':
+					return $this->DELETE($url,$params);
+				break;
+				case 'PUT':
+					return $this->PUT($url,$params);
+				break;
+				default:
+					return $this->GET($url,$params);
+			}
 	}
     
 	public function getResponseFromJsonString($json) {
@@ -182,7 +214,12 @@ class YakwalaApi {
 		if($type == HTTP_POST) {
 			curl_setopt($ch, CURLOPT_POST, 1); 
 			if($params) curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-			if($params) echo 'PARAMS';
+		}elseif($type == HTTP_DELETE) {
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+			if($params) curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+		}elseif($type == HTTP_PUT) {
+			curl_setopt($ch, CURLOPT_PUT, true); 
+			if($params) curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		}
 
 		
@@ -190,7 +227,9 @@ class YakwalaApi {
 		$info=curl_getinfo($ch);
 		curl_close($ch);
 		
+		echo 'info<br>';
 		var_dump($info);
+		echo 'result<br>';
 		var_dump($result);
 		return $result;
 	}
@@ -211,6 +250,21 @@ class YakwalaApi {
 		return $this->Request($url,$params,HTTP_POST);
 	}
 
+	/**
+	 * PUT
+	 * Abstraction of a PUT request
+	 */
+	private function PUT($url,$params=false){
+		return $this->Request($url,$params,HTTP_PUT);
+	}
+	
+	/**
+	 * DELETE
+	 * Abstraction of a DELETE request
+	 */
+	private function DELETE($url,$params=false){
+		return $this->Request($url,$params,HTTP_DELETE);
+	}
 	
 	// Helper Functions
 	

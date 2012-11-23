@@ -82,8 +82,8 @@ class YakwalaApi {
 		// Build the endpoint URL
 		$url = $this->BaseUrl . trim($endpoint,"/");
 		// Append the client details
-		$params['client_id'] = $this->ClientID;
-		$params['client_secret'] = $this->ClientSecret;
+		//$params['client_id'] = $this->ClientID;
+		//$params['client_secret'] = $this->ClientSecret;
 		$params['v'] = $this->Version;
 		$params['locale'] = $this->ClientLanguage;
 		// Return the result;
@@ -218,7 +218,7 @@ class YakwalaApi {
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 			if($params) curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		}elseif($type == HTTP_PUT) {
-			curl_setopt($ch, CURLOPT_PUT, true); 
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 			if($params) curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 		}
 

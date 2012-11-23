@@ -20,7 +20,22 @@
 		
 		$userid = $response->user->id;
 		
-		/*USER FAV PLACE*/
+		// USERS FEEDS
+		$params = array('count'=>2);
+		$response = $yakwala->GetPublic("api/user/feed/".$userid,$params);
+		$infos = json_decode($response);
+		echo "<br><br> <b>USER'S FEED:</b><br>";
+		foreach($infos->data as $info){
+				echo $info->title."<br>";
+			}
+			
+		
+		
+		
+		
+		
+		/*
+		//USER FAV PLACE
 		$response = $yakwala->GetPrivate("api/favplace/".$userid);
 		$favplace = json_decode($response);
 		echo "<br><br> <b>USER FAVPLACE:</b><br>";
@@ -28,7 +43,7 @@
 			echo $favplaceItem->name.' (id= '.$favplaceItem->_id.' )<br>';
 		}
 		
-		/*USER SUBSCRIBTION TO USER FEED*/
+		//USER SUBSCRIBTION TO USER FEED
 		$response = $yakwala->GetPrivate("api/subscribe/user/".$userid);
 		$usersubs = json_decode($response);
 		echo "<br><br> <b>USER SUBSCRIBTIONS:</b><br>";
@@ -36,7 +51,13 @@
 			echo $usersubsItem->userdetails.' (id= '.$usersubsItem->_id.' )<br>';
 		}
 		
-		
+		//USER SUBSCRIBTION TO TAG
+		$response = $yakwala->GetPrivate("api/subscribe/tag/".$userid);
+		$tagsubs = json_decode($response);
+		echo "<br><br> <b>TAG SUBSCRIBTIONS:</b><br>";
+		foreach($tagsubs->data->tagsubs as $tagsubsItem){
+			echo $tagsubsItem.'<br>';
+		}*/
 		
 	}else{
 		$authlink =  $yakwala->AuthenticationLink($redirect_uri);

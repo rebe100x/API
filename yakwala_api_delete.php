@@ -22,7 +22,8 @@
 		
 		$user = $response->user; 
 		
-		/**FAVPLACE**/
+		/*
+		//FAVPLACE
 		// get favplace
 		$response = $yakwala->GetPrivate("api/favplace/".$user->id);
 		$favplace = json_decode($response);
@@ -50,7 +51,7 @@
 		}
 		
 		
-		/**SUBSCRIBE TO USER FEED**/
+		//SUBSCRIBE TO USER FEED
 		//list subscribtions : 
 		$response = $yakwala->GetPrivate("api/subscribe/user/".$user->id);
 		$usersubs = json_decode($response);
@@ -78,8 +79,36 @@
 		foreach($usersubs->data->usersubs as $usersubsItem){
 			echo $usersubsItem->userdetails.' (id= '.$usersubsItem->_id.' )<br>';
 		}
+		*/
+		//SUBSCRIBE TO TAGS
+		//list subscribtions : 
+		$response = $yakwala->GetPrivate("api/subscribe/tag/".$user->id);
+		$tagsubs = json_decode($response);
+		var_dump($response);
+		echo "<br><br> <b>TAG SUBSCRIBTIONS:</b><br>";
+		foreach($tagsubs->data->tagsubs as $tagsubsItem){
+			echo $tagsubsItem.'<br>';
+		}
 		
+		//delete the first one with a post method
+		$params = array('tagsubs'=>$tagsubs->data->tagsubs[0]);
+		$response = $yakwala->GetPrivate("api/unsubscribe/tag/".$user->id,$params,'POST');
+		$delete = json_decode($response);
+		var_dump($delete);
 		
+		// delete the second one with a DELETE method ( RESTfull )
+		$params = array('tagsubs'=>$tagsubs->data->tagsubs[1]);
+		$response = $yakwala->GetPrivate("api/subscribe/tag/".$user->id,$params,'DELETE');
+		$delete = json_decode($response);
+		var_dump($delete);
+
+		// list subscribtions ( again )
+		$response = $yakwala->GetPrivate("api/subscribe/tag/".$user->id);
+		$tagsubs = json_decode($response);
+		echo "<br><br> <b>TAG SUBSCRIBTIONS:</b><br>";
+		foreach($tagsubs->data->tagsubs as $tagsubsItem){
+			echo $tagsubsItem.'<br>';
+		}
 		
 		
 	}else{

@@ -1,10 +1,10 @@
 <?php 
-	require_once("./yakwala_api.class.php");
+	require_once("../yakwala_api.class.php");
 	$name = array_key_exists("name",$_GET) ? $_GET['name'] : "Yakwala";
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_get.php";
+	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_get.php";
 	
 	
 	
@@ -13,21 +13,17 @@
 	
 	
 	if(array_key_exists("code",$_GET)){
-		$response = $yakwala->GetToken($_GET['code'],$redirect_uri);
-		echo 'TOKEN'.$response->access_token;
-		$yakwala->SetAccessToken($response->access_token);
-		showUserBasics($response->user);
 		
-		$userid = $response->user->id;
+		$userid = "50af3cc0540c32480c000002";
 		
 		// USERS FEEDS
-		$params = array('count'=>2);
+		$params = array('count'=>3);
 		$response = $yakwala->GetPublic("api/user/feed/".$userid,$params);
 		$infos = json_decode($response);
 		echo "<br><br> <b>USER'S FEED:</b><br>";
 		foreach($infos->data as $info){
 				echo $info->title."<br>";
-			}
+		}
 			
 		
 		

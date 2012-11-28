@@ -1,10 +1,10 @@
 <?php 
-	require_once("./yakwala_api.class.php");
+	require_once("../yakwala_api.class.php");
 	$name = array_key_exists("name",$_GET) ? $_GET['name'] : "Yakwala";
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_oauth.php";
+	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_oauth.php";
 	
 	
 	

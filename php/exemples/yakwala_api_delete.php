@@ -1,10 +1,10 @@
 <?php 
-	require_once("./yakwala_api.class.php");
+	require_once("../yakwala_api.class.php");
 	$name = array_key_exists("name",$_GET) ? $_GET['name'] : "Yakwala";
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/yakwala_api_delete.php";
+	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_delete.php";
 	
 	
 	
@@ -21,6 +21,50 @@
 		showUserBasics($response->user);
 		
 		$user = $response->user; 
+		
+		
+		//INFOS
+		// get infos
+		$response = $yakwala->GetPrivate("api/user/feed/".$user->id);
+		$infos = json_decode($response);
+		echo '<b>Last infos posted : <br></b>';
+		foreach($infos->data as $info){
+			echo $info->title.' (id= '.$info->_id.' )<br>';
+		}
+		
+		// delete the first one with a post method
+		$params = array('info'=>json_encode(array('_id'=>$infos->data[0]->_id)));
+		$response = $yakwala->GetPrivate("api/user/delfeed/".$user->id,$params,'POST');
+		$delete = json_decode($response);
+		var_dump($delete);
+		
+		// delete the first one with a post method
+		$params = array('info'=>json_encode(array('_id'=>$infos->data[1]->_id)));
+		$response = $yakwala->GetPrivate("api/user/feed/".$user->id,$params,'DELETE');
+		$delete = json_decode($response);
+		var_dump($delete);
+		
+		// get infos
+		$response = $yakwala->GetPrivate("api/user/feed/".$user->id);
+		$infos = json_decode($response);
+		echo '<b>Last infos posted : <br></b>';
+		foreach($infos->data as $info){
+			echo $info->title.' (id= '.$info->_id.' )<br>';
+		}
+		
+		
+		// delete the second one with a DELETE method ( RESTfull )
+		// $params = array('place'=>json_encode(array('_id'=>$favplace->data->favplace[1]->_id)));
+		// $response = $yakwala->GetPrivate("api/favplace/".$user->id,$params,'DELETE');
+		// $delete = json_decode($response);
+		// var_dump($delete);
+
+		// get favplace ( again )
+		// $response = $yakwala->GetPrivate("api/favplace/".$user->id);
+		// $favplace = json_decode($response);
+		// foreach($favplace->data->favplace as $favplaceItem){
+			// echo $favplaceItem->name.' (id= '.$favplaceItem->_id.' )<br>';
+		// }
 		
 		/*
 		//FAVPLACE
@@ -79,7 +123,7 @@
 		foreach($usersubs->data->usersubs as $usersubsItem){
 			echo $usersubsItem->userdetails.' (id= '.$usersubsItem->_id.' )<br>';
 		}
-		*/
+		
 		//SUBSCRIBE TO TAGS
 		//list subscribtions : 
 		$response = $yakwala->GetPrivate("api/subscribe/tag/".$user->id);
@@ -109,7 +153,7 @@
 		foreach($tagsubs->data->tagsubs as $tagsubsItem){
 			echo $tagsubsItem.'<br>';
 		}
-		
+		*/
 		
 	}else{
 		$authlink =  $yakwala->AuthenticationLink($redirect_uri);

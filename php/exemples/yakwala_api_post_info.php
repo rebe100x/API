@@ -14,6 +14,7 @@
 	
 	if(array_key_exists("code",$_GET)){
 	
+		// IDENTIFY USER
 		$response = $yakwala->GetToken($_GET['code'],$redirect_uri);
 		echo 'TOKEN'.$response->access_token;
 		$yakwala->SetAccessToken($response->access_token);
@@ -21,11 +22,57 @@
 		
 		$userid = $response->user->id;
 		
+		// POST a place
+		$params = array(
+						"place"=>json_encode(
+											array(
+													"title"     => 'place title'
+												  , "content"	=> 'place content'		
+												  , "yakcat"	=> array(
+																		'50923b9afa9a95d409000',
+																		'50923b9afa9a95d409000001'
+																	)						  
+												  , "freetag"	=> array('tag11','tag22')
+												  , "outgoinglink"	=> 'http://www.theplacewebsite.com'
+												  ,	"location" =>	array('lat'=>48.2,'lng'=>2.3)
+												  ,	"formatted_address" => " 3 rue du Ruisseau, Paris , France"
+												  ,	"address" => array( 
+																		"street_number"=>"3"
+																		,"street"=>"rue du Ruisseau"
+																		,"arr"=> ""
+																		,"city"=> "Paris"
+																		,"state"=> "Paris"
+																		,"area"=> "Ile de France"
+																		,"country"=> "France"
+																		,"zip"=> "75018"
+																		)
+													, "contact" => array(
+																"tel"=> "0123456789",
+																"mobile"=>"0612345678",
+																"mail"=>"lemail@yakwala.fr",
+																"transportation"=>"metro 3 station Ruisseau",
+																"web"=>"http://www.theplace.com",
+																"opening"=>"Tlj de 8h à 20h",
+																"closing"=>"dimancehs et jours fériés",
+																"specialopening"=>"Nocture le jeudi de 19h à minuit"
+															)
+												)
+											)
+					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
+				);
+
+						
+					
+		$response = $yakwala->GetPrivate("api/place/".$userid,$params,'POST');
+		var_dump($response);
+		$theplace = JSON_decode($response)->place;
+		
+		
 		// POST an info ( in the user's feed )
 		$params = array(
 						"info"=>json_encode(array(
-							"title"     => 'info title 4'
-						  , "content"	=> 'info content 2'		
+							"title"     => 'info title'
+						  , "content"	=> 'info content'		
 						  , "yakcat"	=> array(
 												'50923b9afa9a95d409000',
 												'50923b9afa9a95d409000001'
@@ -33,7 +80,7 @@
 						  , "yaktype"	=> 3
 						  , "freetag"	=> array('tag11','tag22')
 						  , "pubdate"	=> 1354363261		  
-						  ,	"placeid"	=> array('_id'=>'50b37abefa9a95340e00002d')
+						  ,	"placeid"	=> array('_id'=>$theplace->_id)
 						))
 					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
 				);

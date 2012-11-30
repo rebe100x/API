@@ -23,6 +23,40 @@
 		$user = $response->user; 
 		
 		
+		//PLACES
+		// SEARCH PLACES
+		$params = array('count'=>3);
+		$response = $yakwala->GetPublic("api/place/search/tit",$params);
+		$places = json_decode($response)->places;
+		//var_dump($response);
+		echo "<br><br> <b>PLACES:</b><br>";
+		foreach($places as $place){
+			echo $place->title."<br>";
+		}
+		
+		// delete a place with a non restfull method
+		$params = array('place'=>json_encode(array('_id'=>$places[0]->_id)));
+		$response = $yakwala->GetPrivate("api/delplace/".$user->id,$params,'POST');
+		$delete = json_decode($response);
+		var_dump($delete);
+		
+		// delete a place with a restfull method
+		$params = array('place'=>json_encode(array('_id'=>$places[1]->_id)));
+		$response = $yakwala->GetPrivate("api/place/".$user->id,$params,'DELETE');
+		$delete = json_decode($response);
+		var_dump($delete);
+		
+		// SEARCH PLACES
+		$params = array('count'=>3);
+		$response = $yakwala->GetPublic("api/place/search/tit",$params);
+		$places = json_decode($response)->places;
+		//var_dump($response);
+		echo "<br><br> <b>PLACES:</b><br>";
+		foreach($places as $place){
+			echo $place->title."<br>";
+		}
+		
+		/*
 		//INFOS
 		// get infos
 		$response = $yakwala->GetPrivate("api/user/feed/".$user->id);
@@ -51,20 +85,9 @@
 		foreach($infos->data as $info){
 			echo $info->title.' (id= '.$info->_id.' )<br>';
 		}
+		*/
 		
 		
-		// delete the second one with a DELETE method ( RESTfull )
-		// $params = array('place'=>json_encode(array('_id'=>$favplace->data->favplace[1]->_id)));
-		// $response = $yakwala->GetPrivate("api/favplace/".$user->id,$params,'DELETE');
-		// $delete = json_decode($response);
-		// var_dump($delete);
-
-		// get favplace ( again )
-		// $response = $yakwala->GetPrivate("api/favplace/".$user->id);
-		// $favplace = json_decode($response);
-		// foreach($favplace->data->favplace as $favplaceItem){
-			// echo $favplaceItem->name.' (id= '.$favplaceItem->_id.' )<br>';
-		// }
 		
 		/*
 		//FAVPLACE

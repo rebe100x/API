@@ -16,6 +16,17 @@
 		
 		$userid = "50af3cc0540c32480c000002";
 		
+		
+		// PLACES FORM IDS
+		$params = array('place'=>urlencode(json_encode(array(array('_id'=>'50b7440c16a3222005000005'),array('_id'=>'50b7435c003482100a000005')))));
+		$response = $yakwala->GetPublic("api/place/",$params);
+		$places = json_decode($response);
+		echo "<br><br> <b>PLACES FROM IDS:</b><br>";
+		foreach($places->data as $place){
+				echo $place->title."<br>";
+		}
+		
+		/*
 		// USERS FEEDS
 		$params = array('count'=>3);
 		$response = $yakwala->GetPublic("api/user/feed/".$userid,$params);
@@ -26,11 +37,6 @@
 		}
 			
 		
-		
-		
-		
-		
-		/*
 		//USER FAV PLACE
 		$response = $yakwala->GetPrivate("api/favplace/".$userid);
 		$favplace = json_decode($response);

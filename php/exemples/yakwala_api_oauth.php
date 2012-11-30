@@ -18,9 +18,9 @@
 		$yakwala->SetAccessToken($response->access_token);
 		showUserBasics($response->user);
 		
-		$response = $yakwala->GetPrivate("api/users/".$response->user->id);
+		$response = $yakwala->GetPrivate("api/user/".$response->user->id);
 		$userdetails = json_decode($response);
-		echo "<br><br> <b>USER DETAILS:</b> users/userid<br>";
+		echo "<br><br> <b>USER DETAILS:</b> user/userid<br>";
 		print_r($userdetails);
 		
 		echo "<br><br> <b>USER FAVPLACE:</b>";
@@ -28,14 +28,14 @@
 			echo $favplaceItem->name.' (id= '.$favplaceItem->_id.' )<br>';
 		}
 		
-		$response = $yakwala->GetPrivate("api/users/feed/".$userdetails->data->_id."/20");
+		$response = $yakwala->GetPrivate("api/user/feed/".$userdetails->data->_id."/20");
 		$userfeed = json_decode($response);
-		echo "<br><br> <b>LAST 20 INFOS POSTED:</b> users/feed/userid/20<br>";
+		echo "<br><br> <b>LAST 20 INFOS POSTED:</b> user/feed/userid/20<br>";
 		print_r($userfeed);
 		
-		$response = $yakwala->GetPrivate("api/users/search/rebe");
+		$response = $yakwala->GetPrivate("api/user/search/rebe");
 		$userlist = json_decode($response);
-		echo "<br><br> <b>USERS SEARCH RESULTS:</b> users/search/rebe<br>";
+		echo "<br><br> <b>USERS SEARCH RESULTS:</b> user/search/rebe<br>";
 		print_r($userlist);
 		
 	}else{

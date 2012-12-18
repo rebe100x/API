@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_oauth.php";
+	$redirect_uri = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 	
 	
 	
@@ -28,9 +28,9 @@
 			echo $favplaceItem->name.' (id= '.$favplaceItem->_id.' )<br>';
 		}
 		
-		$response = $yakwala->GetPrivate("api/user/feed/".$userdetails->data->_id."/20");
+		$response = $yakwala->GetPrivate("api/user/feed/".$userdetails->data->_id);
 		$userfeed = json_decode($response);
-		echo "<br><br> <b>LAST 20 INFOS POSTED:</b> user/feed/userid/20<br>";
+		echo "<br><br> <b>LAST 20 INFOS POSTED:</b> user/feed/userid<br>";
 		print_r($userfeed);
 		
 		$response = $yakwala->GetPrivate("api/user/search/rebe");

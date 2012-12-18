@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_post_info.php";
+	$redirect_uri = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 	
 	
 	
@@ -26,7 +26,7 @@
 		$params = array(
 						"place"=>json_encode(
 											array(
-													"title"     => 'place title'
+													"title"     => 'place title3'
 												  , "content"	=> 'place content'		
 												  , "yakcat"	=> array(
 																		'50923b9afa9a95d409000',
@@ -53,7 +53,7 @@
 																"transportation"=>"metro 3 station Ruisseau",
 																"web"=>"http://www.theplace.com",
 																"opening"=>"Tlj de 8h à 20h",
-																"closing"=>"dimancehs et jours fériés",
+																"closing"=>"dimanches et jours fériés",
 																"specialopening"=>"Nocture le jeudi de 19h à minuit"
 															)
 												)
@@ -64,6 +64,7 @@
 						
 					
 		$response = $yakwala->GetPrivate("api/place/".$userid,$params,'POST');
+		echo '<br>RESULT:<br>';
 		var_dump($response);
 		$theplace = JSON_decode($response)->place;
 		
@@ -71,24 +72,51 @@
 		// POST an info ( in the user's feed )
 		$params = array(
 						"info"=>json_encode(array(
-							"title"     => 'info title'
+							"title"     => 'info TOTO'
 						  , "content"	=> 'info content'		
 						  , "yakcat"	=> array(
 												'50923b9afa9a95d409000',
 												'50923b9afa9a95d409000001'
 											)
 						  , "yaktype"	=> 3
+						  , "print" => '1'
 						  , "freetag"	=> array('tag11','tag22')
-						  , "pubdate"	=> 1354363261		  
+						  //,'datepub' =>1355822659
 						  ,	"placeid"	=> array('_id'=>$theplace->_id)
 						))
 					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
 				);
-
+		
+		$response = $yakwala->GetPrivate("api/user/feed/".$userid,$params,'POST');
+		$insert = ($response);
+		echo '<br>RESULT:<br>';
+		var_dump($insert);
+		
+		// POST an info ( in the user's feed )
+		$params = array(
+						"info"=>json_encode(array(
+							"title"     => 'info DODOD'
+						  , "content"	=> 'info content'		
+						  , "yakcat"	=> array(
+												'50923b9afa9a95d409000',
+												'50923b9afa9a95d409000001'
+											)
+						  , "yaktype"	=> 3
+						  , "print" => '1'
+						  , "freetag"	=> array('tag11','tag22')
+						  //,'datepub' =>1355822659
+						  //,'dateendprint' =>(1355822659+86400)  // you need to be a premium account to set this param
+						  ,	"location" =>	array('lat'=>48.3,'lng'=>2.4)
+						  ,	"address" => " 3 rue du Ruisseau, Paris , France"
+												  
+						))
+					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
+				);
 						
 					
 		$response = $yakwala->GetPrivate("api/user/feed/".$userid,$params,'POST');
 		$insert = ($response);
+		echo '<br>RESULT:<br>';
 		var_dump($insert);
 		
 		

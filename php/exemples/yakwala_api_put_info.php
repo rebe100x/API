@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_put_info.php";
+	$redirect_uri = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 	
 	
 	
@@ -24,8 +24,8 @@
 		// PUT an info ( in the user's feed )
 		$params = array(
 						"info"=>json_encode(array(
-							"_id"	=> "50b7440c16a3222005000004"
-					  	  ,"title"     => 'info title UPDATED'
+							"_id"	=> "50c99d20fca9604412000004"
+					  	  ,"title"     => 'info title TOTO'
 						  , "content"	=> 'info content updated'		
 						  , "yakcat"	=> array(
 												'50923b9afa9a95d409000',
@@ -34,8 +34,8 @@
 											)
 						  , "yaktype"	=> 3
 						  , "freetag"	=> array('tag11','tag22')
-						  , "pubdate"	=> 1354363261		  
-						  ,	"placeid"	=> array('_id'=>'50b37abefa9a95340e00002d')
+						  	  
+						  ,	"placeid"	=> array('_id'=>'50c864e81108f3340d00000a')
 						))
 					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
 				);

@@ -6,7 +6,8 @@
  * ENVIRONNEMENT : need curl activated , tested on PHP 5.3
  *
  * @package php-yakwala 
- * @author rebe100x rebe100x@yakwala.fr on the basis of the foursquare api by Stephen Young <stephen@tryllo.com>, @stephenyoungdev
+ * @author Stephen Young <stephen@tryllo.com>, @stephenyoungdev
+ * @modified by rebe100x rebe100x@yakwala.fr 
  * @version 1.0.0
  * @license GPLv3 <http://www.gnu.org/licenses/gpl.txt>
  */
@@ -26,18 +27,16 @@ class YakwalaApiException extends Exception {}
 class YakwalaApi {
 	
 	/** @var String $BaseUrl The base url for the yakwala API */
-	private $BaseUrl = "http://localhost:3000/";
-	//private $BaseUrl = "http://ec2-54-247-18-97.eu-west-1.compute.amazonaws.com:62501/";
+	private $BaseUrl = "http://dev.api.yakwala.fr:3002/";
+	//private $BaseUrl = "http://api.yakwala.fr:62501/";
 	/** @var String $AuthUrl The url for obtaining the auth access code */
-	private $AuthUrl = "http://localhost:3000/api/oauth/authorize";
-	//private $AuthUrl = "http://ec2-54-247-18-97.eu-west-1.compute.amazonaws.com:62501/api/oauth/authorize";
+	private $AuthUrl = "http://dev.api.yakwala.fr:3002/api/oauth/authorize";
+	//private $AuthUrl = "http://api.yakwala.fr:62501/api/oauth/authorize";
 	/** @var String $TokenUrl The url for obtaining an auth token */
-	private $TokenUrl = "http://localhost:3000/api/oauth/access_token";
-	//private $TokenUrl = "http://ec2-54-247-18-97.eu-west-1.compute.amazonaws.com:62501/api/oauth/access_token";
+	private $TokenUrl = "http://dev.api.yakwala.fr:3002/api/oauth/access_token";
+	//private $TokenUrl = "http://api.yakwala.fr:62501/api/oauth/access_token";
 	
-	// Edited Petr Babicka (babcca@gmail.com) https://developer.yakwala.com/overview/versioning
-	/** @var String $Version YYYYMMDD */
-	private $Version = '20120228'; 
+	private $Version = '0'; 
 
 	/** @var String $ClientID */
 	private $ClientID;
@@ -170,14 +169,8 @@ class YakwalaApi {
 			throw new YakwalaApiException( 'Invalid response' );
 		}
 
-		// Better to check status code and fail gracefully, but not worried about it
-		// ... REALLY, we should be checking the HTTP status code as well, not 
-		// just what the API gives us in it's microformat
-		/*
-		if ( !isset( $json->meta->code ) || 200 !== $json->meta->code ) {
-			throw new YakwalaApiException( 'Invalid response' );
-		}
-		*/
+		
+		
 		return $json->response;
 	}
 	
@@ -189,10 +182,10 @@ class YakwalaApi {
 	 * @param Array $params The parameters to pass to the request
 	 */
 	private function Request($url,$params=false,$type=HTTP_GET){
-		echo "<br>REQUEST : ".$url;
+		echo "<br><hr>REQUEST : ".$url;
 		echo "<br>PARAMS";
 		var_dump($params);
-		echo "<br>";
+		
 		// Populate data for the GET request
 		if($type == HTTP_GET) $url = $this->MakeUrl($url,$params);
 
@@ -234,6 +227,11 @@ class YakwalaApi {
 		// var_dump($info);
 		// echo 'result<br>';
 		// var_dump($result);
+		
+		
+		if ( 200 !== $info['http_code'] ) {
+			throw new YakwalaApiException( 'Invalid response (http code :'.$info['http_code'].')' );
+		}
 		
 		return $result;
 	}

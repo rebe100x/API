@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_put.php";
+	$redirect_uri = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 	
 	
 	
@@ -44,6 +44,38 @@
 		$insert = json_decode($response);
 		var_dump($insert);
 		*/
+		
+		// update users 
+		$params = array(
+						"user"=>json_encode(array(
+							"_id"	=> "50c6d8d73becc98c12000007"
+					  	  ,	"address" => array( 
+												"street_number"=>"3updated!!!"
+												,"street"=>"rue du Ruisseauupdated"
+												,"arr"=> "updated"
+												,"city"=> "Parisupdated"
+												,"state"=> "Parisupdated"
+												,"area"=> "Ile de Franceupdated"
+												,"country"=> "Franceupdated"
+												,"zip"=> "75018updated"
+												)
+						 //,	"formatted_address" => " 3 rue du Ruisseau updated, Paris , France"
+						 ,	"location" =>	array('lat'=>48.5,'lng'=>2.5)
+						 ,  "mail" => "mon mail"
+						 ,  "name" => "nameNONO"
+						 ,  "tag" => array("tag1",'tag2')
+						 ,  "bio" => "ma bio updated"
+						 ,  "web" => "my new website"
+						))
+					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
+				);
+
+						
+					
+		$response = $yakwala->GetPrivate("api/user/".$userid,$params,'PUT');
+		$insert = ($response);
+		var_dump($insert);
+		
 		
 	}else{
 		$authlink =  $yakwala->AuthenticationLink($redirect_uri);

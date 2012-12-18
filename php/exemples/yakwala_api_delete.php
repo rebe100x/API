@@ -4,7 +4,7 @@
 	// Set your client key and secret
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
-	$redirect_uri = "dev.backend.yakwala.com/TEST/API/php/exemples/yakwala_api_delete.php";
+	$redirect_uri = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 	
 	
 	
@@ -34,17 +34,19 @@
 			echo $place->title."<br>";
 		}
 		
-		// delete a place with a non restfull method
-		$params = array('place'=>json_encode(array('_id'=>$places[0]->_id)));
+		// delete a place with a restfull method 
+		$params = array('place'=>$places[0]->_id);
+		$response = $yakwala->GetPrivate("api/place/".$user->id,$params,'DELETE');
+		$delete = json_decode($response);
+		var_dump($delete);
+		
+		// delete a place with a non restfull method sending an array
+		$params = array('place'=>$places[1]->_id);
 		$response = $yakwala->GetPrivate("api/delplace/".$user->id,$params,'POST');
 		$delete = json_decode($response);
 		var_dump($delete);
 		
-		// delete a place with a restfull method
-		$params = array('place'=>json_encode(array('_id'=>$places[1]->_id)));
-		$response = $yakwala->GetPrivate("api/place/".$user->id,$params,'DELETE');
-		$delete = json_decode($response);
-		var_dump($delete);
+		
 		
 		// SEARCH PLACES
 		$params = array('count'=>3);

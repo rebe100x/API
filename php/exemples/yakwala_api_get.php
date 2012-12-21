@@ -5,7 +5,6 @@
 	$client_key = "50a0e2c4fa9a95240b000001";
 	$client_secret = "5645a25f963bd0ac846b17eb517cd638754f1a7b";  
 	$redirect_uri = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-	echo $redirect_uri; 
 	
 	
 	// Load the Yakwala API library
@@ -24,7 +23,6 @@
 		
 		// PLACES FORM IDS
 		// both parameters are working :
-		//$params = array('place'=>urlencode(json_encode(array(array('_id'=>'50cef8f8087542a812000006'),array('_id'=>'50ceeb60cb7b8e2410000010')))));
 		$params = array('place'=>urlencode(json_encode(array('50cef8f8087542a812000006','50ceeb60cb7b8e2410000010'))));
 		$response = $yakwala->GetPublic("api/place/".$userid,$params);
 		$places = json_decode($response);

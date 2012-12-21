@@ -25,7 +25,7 @@
 		$params = array(
 						"place"=>json_encode(
 											array(
-													"_id" => "50b8b4b80d104ab418000006"
+													"_id" => "50d0733e37ee89481a000020"
 												  ,	"title"     => 'place title updated'
 												  , "content"	=> 'place content updated'		
 												  , "yakcat"	=> array(

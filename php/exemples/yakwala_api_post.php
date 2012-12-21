@@ -24,13 +24,13 @@
 		
 		
 		// POST favplace
-		$params = array('place'=>json_encode(array(array('name'=>'api test1','location'=>array('lat'=>10,'lng'=>20)),array('name'=>'api test2','location'=>array('lat'=>11,'lng'=>22)),)));
+		$params = array('place'=>json_encode(array(array('name'=>'api test1111','location'=>array('lat'=>10,'lng'=>20)),array('name'=>'api test22222','location'=>array('lat'=>11,'lng'=>22)),)));
 		$response = $yakwala->GetPrivate("api/favplace/".$userid,$params,'POST');
 		$insert = json_decode($response);
 		var_dump($insert);
 		
 		// POST user subscribtion to user feed
-		$params = array('usersubs'=>json_encode(array(array('_id'=>'50af2054fba918480c000006'),array('_id'=>'50af2404beccdf180b000002'))));
+		$params = array('usersubs'=>json_encode(array('50cee95bcb7b8e2410000004')));
 		$response = $yakwala->GetPrivate("api/subscribe/user/".$userid,$params,'POST');
 		$insert = json_decode($response);
 		var_dump($insert);

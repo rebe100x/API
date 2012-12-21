@@ -30,14 +30,17 @@
 		$response = $yakwala->GetPrivate("api/favplace/".$userid,$params,'PUT');
 		$insert = json_decode($response);
 		var_dump($insert);
+		*/
 		
-		
+		/*
 		// update a user subscribtion to a user feed
-		$params = array('usersubs'=>json_encode(array(array('_id'=>'50af2404beccdf180b000002'),array('_id'=>'50af2054fba918480c000006'))));
+		$params = array('usersubs'=>json_encode(array('50cee95bcb7b8e2410000004')));
 		$response = $yakwala->GetPrivate("api/subscribe/user/".$userid,$params,'PUT');
 		$insert = json_decode($response);
 		var_dump($insert);
+		*/
 		
+		/*
 		// update a subscribtion to tags
 		$params = array('tagsubs'=>json_encode(array('tag11','tag22')));
 		$response = $yakwala->GetPrivate("api/subscribe/tag/".$userid,$params,'PUT');
@@ -45,11 +48,11 @@
 		var_dump($insert);
 		*/
 		
+		/*
 		// update users 
 		$params = array(
-						"user"=>json_encode(array(
-							"_id"	=> "50c6d8d73becc98c12000007"
-					  	  ,	"address" => array( 
+						"usesr"=>json_encode(array(
+					  	 	"address" => array( 
 												"street_number"=>"3updated!!!"
 												,"street"=>"rue du Ruisseauupdated"
 												,"arr"=> "updated"
@@ -75,7 +78,7 @@
 		$response = $yakwala->GetPrivate("api/user/".$userid,$params,'PUT');
 		$insert = ($response);
 		var_dump($insert);
-		
+		*/
 		
 	}else{
 		$authlink =  $yakwala->AuthenticationLink($redirect_uri);

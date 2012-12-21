@@ -24,8 +24,8 @@
 		// PUT an info ( in the user's feed )
 		$params = array(
 						"info"=>json_encode(array(
-							"_id"	=> "50c99d20fca9604412000004"
-					  	  ,"title"     => 'info title TOTO'
+							"_id"	=> "50d1801dc4e5fc3805000003"
+					  	  ,"title"     => 'info title UPDATED'
 						  , "content"	=> 'info content updated'		
 						  , "yakcat"	=> array(
 												'50923b9afa9a95d409000',
@@ -35,7 +35,9 @@
 						  , "yaktype"	=> 3
 						  , "freetag"	=> array('tag11','tag22')
 						  	  
-						  ,	"placeid"	=> array('_id'=>'50c864e81108f3340d00000a')
+						  //,	"placeid"	=> '50d0731837ee89481a00001c'
+						  , "location" => array('lat'=>12,'lng'=>13)
+						  ,"address" => "the new address"
 						))
 					, "picture" =>"@C:\miro.jpg;type=image/jpeg"
 				);

@@ -18,12 +18,6 @@
 	$response = $yakwala->GetPrivate("api/user/create/",$params,'POST');
 	echo '<br>RESULT:<br>';
 	var_dump($response);
-	
-	
-	
-	
-		
-	
-	
+
 ?>
 

@@ -11,20 +11,18 @@
 	// Load the Yakwala API library
 	$yakwala = new YakwalaAPI($client_key,$client_secret);
 	
-	if(!empty($_GET['code'])){
-	
-	
+	if(!empty($_GET['key']) && !empty($_GET['token'])){
 		$params = array(
-			"userid"=>"50d446dddd0cb74412000003" ,
-			"key"=>$_GET['code'],
+			"token"=>$_GET['token'] ,
+			"key"=>$_GET['key'],
 			"client_key" => "50a0e2c4fa9a95240b000001",
 			);
-
+		
 		$response = $yakwala->GetPrivate("api/user/validate/",$params,'POST');
 		echo '<br>RESULT:<br>';
 		var_dump($response);
 	}else
-		echo "need param : ?code=xxxxx";
+		echo "need param : ?key=xxxxx&token=yyy";
 			
 	
 ?>

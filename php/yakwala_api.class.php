@@ -27,17 +27,17 @@ class YakwalaApiException extends Exception {}
 class YakwalaApi {
 	
 	/** @var String $BaseUrl The base url for the yakwala API */
-	private $BaseUrl = "http://dev.api.yakwala.fr:3002/";
+	//private $BaseUrl = "http://dev.api.yakwala.fr:3002/";
 	//private $BaseUrl = "http://preprod.api.yakwala.fr/";
-	//private $BaseUrl = "http://api.yakwala.fr:62501/";
+	private $BaseUrl = "http://api.yakwala.fr";
 	/** @var String $AuthUrl The url for obtaining the auth access code */
-	private $AuthUrl = "http://dev.api.yakwala.fr:3002/api/oauth/authorize";
+	//private $AuthUrl = "http://dev.api.yakwala.fr/api/oauth/authorize";
 	//private $AuthUrl = "http://preprod.api.yakwala.fr/api/oauth/authorize";
-	//private $AuthUrl = "http://api.yakwala.fr:62501/api/oauth/authorize";
+	private $AuthUrl = "http://api.yakwala.fr/api/oauth/authorize";
 	/** @var String $TokenUrl The url for obtaining an auth token */
-	private $TokenUrl = "http://dev.api.yakwala.fr:3002/api/oauth/access_token";
-	//private $TokenUrl = "http://preprod.api.yakwala.fr:3002/api/oauth/access_token";
-	//private $TokenUrl = "http://api.yakwala.fr:62501/api/oauth/access_token";
+	//private $TokenUrl = "http://dev.api.yakwala.fr:3002/api/oauth/access_token";
+	//private $TokenUrl = "http://preprod.api.yakwala.fr/api/oauth/access_token";
+	private $TokenUrl = "http://api.yakwala.fr/api/oauth/access_token";
 	
 	private $Version = '0'; 
 
